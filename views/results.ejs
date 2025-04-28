@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generation Results</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; }
+        h1 { text-align: center; }
+        .result-item {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .result-item img {
+            max-width: 100%; /* Make images responsive */
+            height: auto;
+            display: block; /* Prevent extra space below image */
+            margin-top: 10px;
+            border: 1px solid #eee;
+        }
+        .prompt { font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .error-details { font-size: 0.9em; color: #555; word-wrap: break-word; }
+        .back-link { display: block; text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Generation Results</h1>
+
+    <a href="/" class="back-link">Generate More Images</a>
+
+    <% if (error) { %>
+        <div class="result-item error">
+            <p>Overall Error: <%= error %></p>
+        </div>
+    <% } %>
+
+
+    <% if (results && results.length > 0) { %>
+        <% results.forEach(result => { %>
+            <div class="result-item">
+                <p class="prompt">Prompt: <%= result.prompt %></p>
+                <% if (result.image_data_uri) { %>
+                    <img src="<%= result.image_data_uri %>" alt="Generated image for: <%= result.prompt %>">
+                <% } else if (result.error) { %>
+                    <p class="error">Error: <%= result.error %></p>
+                    <% if (result.error_details) { %>
+                         <p class="error-details">Details: <%= result.error_details %></p>
+                    <% } %>
+                <% } else { %>
+                     <p class="error">Unknown issue for this prompt.</p>
+                <% } %>
+            </div>
+        <% }); %>
+    <% } else if (!error) { %>
+         <p>No results to display. Did you submit any prompts?</p>
+    <% } %>
+
+
+    <a href="/" class="back-link">Generate More Images</a>
+
+</body>
+</html>
