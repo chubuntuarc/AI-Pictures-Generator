@@ -28,9 +28,9 @@ app.set("view engine", "ejs"); // Set EJS as the templating engine
 app.set("views", path.join(__dirname, "views")); // Tell Express where to find view templates
 
 // --- Multer Configuration ---
-// Configure multer to store uploaded files temporarily in an 'uploads/' directory
-// You might want to add 'uploads/' to your .gitignore file
-const upload = multer({ dest: "uploads/" });
+// Configure multer to store uploaded files temporarily in the OS's temp directory
+// On Vercel, this will be the writable /tmp directory
+const upload = multer({ dest: "/tmp" });
 
 // --- Configuration ---
 const MODEL = "gpt-image-1"; // Or "dall-e-2"
